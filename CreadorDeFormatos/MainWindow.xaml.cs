@@ -177,11 +177,12 @@ namespace CreadorDeFormatos
 
                             if (rawValue is DateTime dt)
                             {
-                                // Format as short date (e.g. 2/11/2026)
-                                newValue = dt.ToShortDateString();
-
-                                // Or use a custom format, e.g. "dd/MM/yyyy"
-                                // newValue = dt.ToString("dd/MM/yyyy");
+                                // Use the user-selected format
+                                newValue = dt.ToString(viewModel.DateFormat);
+                            }
+                            else if (DateTime.TryParse(rawValue?.ToString(), out DateTime parsed))
+                            {
+                                newValue = parsed.ToString(viewModel.DateFormat);
                             }
                             else
                             {
@@ -193,8 +194,8 @@ namespace CreadorDeFormatos
                                 SearchValue = placeholder,
                                 NewValue = newValue,
                             };
-
                             doc.ReplaceText(options);
+
                         }
                         masterDocument.InsertDocument(doc);
                     }

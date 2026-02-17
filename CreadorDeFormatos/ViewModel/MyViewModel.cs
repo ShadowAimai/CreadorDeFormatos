@@ -55,6 +55,20 @@ namespace CreadorDeFormatos.ViewModel
             }
         }
 
+        private string _dateFormat;
+        public string DateFormat
+        {
+            get => _dateFormat;
+            set
+            {
+                if (_dateFormat != value)
+                {
+                    _dateFormat = value;
+                    OnPropertyChanged(nameof(DateFormat));
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(string propertyName) { 

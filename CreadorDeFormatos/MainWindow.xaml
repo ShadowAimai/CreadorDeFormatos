@@ -6,49 +6,83 @@
         xmlns:lang="clr-namespace:CreadorDeFormatos.Languages"
         mc:Ignorable="d"
         Title="{x:Static lang:Resources.AppTitle}" Height="450" Width="1000">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="50*" />
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="100*"/>
-            <ColumnDefinition Width="50*" />
-        </Grid.ColumnDefinitions>
+
+    <Window.Resources>
+        <!-- Consistent button style -->
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="LightGray"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="8,4"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="50*"/>
-            <RowDefinition Height="50" />
-            <RowDefinition Height="50" />
-            <RowDefinition Height="50" />
-            <RowDefinition Height="50" />
-            <RowDefinition Height="50" />
-            <RowDefinition Height="50" />
-            <RowDefinition Height="50*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Label Content="{x:Static lang:Resources.AppTitle}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="16" Grid.ColumnSpan="3" />
-        <Label Content="{x:Static lang:Resources.LabelExcel}" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-        <Label Content="{x:Static lang:Resources.LabelFormatDocx}" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-        <Label Content="{x:Static lang:Resources.LabelOutputFolder}" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-        <Label x:Name="lblExcelFilePath" Content="{Binding ExcelFilePath}" Grid.Column="3" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" />
-        <Label x:Name="lblDateFormat" Content="{x:Static lang:Resources.AppTitle}" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,20,0,0"/>
-        <Label x:Name="lblFormatFilePath" Content="{Binding FormatFilePath}" Grid.Column="3" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" />
-        <Label x:Name="lblOutputFilePath" Content="{Binding OutputFolderPath}" Grid.Column="3" Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" />
 
-        <Button Content="{x:Static lang:Resources.ButtonSelectExcel}" Grid.Column="2" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" Click="SelectExcelFile_Click"/>
+        <!-- Header bar -->
+        <Label Content="{x:Static lang:Resources.AppTitle}"
+               Grid.Row="0"
+               Grid.ColumnSpan="6"
+               Background="SteelBlue"
+               Foreground="White"
+               FontSize="20"
+               FontWeight="Bold"
+               Padding="10"
+               HorizontalAlignment="Stretch"/>
 
-        <ComboBox x:Name="dateFormatSelector" SelectedIndex="0" Grid.Column="2" Grid.Row="3" VerticalAlignment="Center" >
-            <ComboBoxItem Content="dd/MM/yyyy"/>
-            <ComboBoxItem Content="MM/dd/yyyy"/>
-            <ComboBoxItem Content="yyyy-MM-dd"/>
-        </ComboBox>
+        <!-- Excel file selection -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="5">
+            <Label Content="{x:Static lang:Resources.LabelExcel}" VerticalAlignment="Center"/>
+            <Button Content="{x:Static lang:Resources.ButtonSelectExcel}" Click="SelectExcelFile_Click"/>
+            <Label x:Name="lblExcelFilePath" Content="{Binding ExcelFilePath}" Margin="10,0,0,0" VerticalAlignment="Center"/>
+        </StackPanel>
 
-        <Button Content="{x:Static lang:Resources.ButtonSelectFormat}" Grid.Column="2" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center" Click="SelectFormatFile_Click"/>
-        <Button Content="{x:Static lang:Resources.ButtonSelectFolder}" Grid.Column="2" Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Center" Click="SelectOutputFolder_Click"/>
+        <!-- Date format selection -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="5">
+            <Label Content="{x:Static lang:Resources.LabelDateFormat}" VerticalAlignment="Center"/>
+            <ComboBox x:Name="dateFormatSelector"
+                      Width="150"
+                      SelectedValue="{Binding DateFormat, Mode=TwoWay}"
+                      Margin="10,0,0,0">
+                <ComboBoxItem Content="dd/MM/yyyy"/>
+                <ComboBoxItem Content="MM/dd/yyyy"/>
+                <ComboBoxItem Content="yyyy-MM-dd"/>
+            </ComboBox>
+        </StackPanel>
 
-        <Button Content="{x:Static lang:Resources.ButtonGenerateFormats}" Grid.Column="2" Grid.Row="6" HorizontalAlignment="Left" VerticalAlignment="Center" Click="GenerateFormats_Click"/>
+        <!-- Format file selection -->
+        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="5">
+            <Label Content="{x:Static lang:Resources.LabelFormatDocx}" VerticalAlignment="Center"/>
+            <Button Content="{x:Static lang:Resources.ButtonSelectFormat}" Click="SelectFormatFile_Click"/>
+            <Label x:Name="lblFormatFilePath" Content="{Binding FormatFilePath}" Margin="10,0,0,0" VerticalAlignment="Center"/>
+        </StackPanel>
 
-        <!-- Progress bar just below the button -->
-        <ProgressBar x:Name="progressBar" Grid.Column="2" Grid.Row="6" Grid.ColumnSpan="3" Height="20" Minimum="0" Maximum="100" Visibility="Collapsed"/>
+        <!-- Output folder selection -->
+        <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="5">
+            <Label Content="{x:Static lang:Resources.LabelOutputFolder}" VerticalAlignment="Center"/>
+            <Button Content="{x:Static lang:Resources.ButtonSelectFolder}" Click="SelectOutputFolder_Click"/>
+            <Label x:Name="lblOutputFilePath" Content="{Binding OutputFolderPath}" Margin="10,0,0,0" VerticalAlignment="Center"/>
+        </StackPanel>
 
+        <!-- Generate button and progress bar -->
+        <StackPanel Grid.Row="5" Orientation="Horizontal" Margin="5">
+            <Button Content="{x:Static lang:Resources.ButtonGenerateFormats}" Click="GenerateFormats_Click"/>
+            <ProgressBar x:Name="progressBar"
+                         Width="200"
+                         Height="20"
+                         Minimum="0"
+                         Maximum="100"
+                         Visibility="Collapsed"
+                         Margin="10,0,0,0"/>
+        </StackPanel>
     </Grid>
 </Window>
